@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">My Cooking Book</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="menu_edit">Edit</string>
+    <string name="remove">Remove</string>
+    <string name="european">European</string>
+    <string name="asian">Asian</string>
+    <string name="panAsian">Pan Asian</string>
+    <string name="oriental">Oriental</string>
+    <string name="american">American</string>
+    <string name="russian">Russian</string>
+    <string name="mediterranean">Mediterranean</string>
+    <string name="enter_author">Enter Author</string>
+    <string name="enter_title">Enter Title</string>
+    <string name="save">Save</string>
+    <string name="close">Close</string>
+</resources>
