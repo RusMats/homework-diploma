@@ -31,9 +31,9 @@ class StepEditAdapter(
         private lateinit var step: Step
 
         init {
-            binding.fabDeleteStep.setOnClickListener { listener.onDeleteClicked(step) }
-            binding.imageButtonUp.setOnClickListener { listener.onUpClicked(step) }
-            binding.imageButtonDown.setOnClickListener { listener.onDownClicked(step) }
+            binding.fabDeleteStep.setOnClickListener { listener.onStepDeleteClicked(step) }
+            binding.imageButtonUp.setOnClickListener { listener.onStepUpClicked(step) }
+            binding.imageButtonDown.setOnClickListener { listener.onStepDownClicked(step) }
 //            binding.fabAddImage.setOnClickListener { listener.onAddClicked() } TODO: stepImage
         }
 

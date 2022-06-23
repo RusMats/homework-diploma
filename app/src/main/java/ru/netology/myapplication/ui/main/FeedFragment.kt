@@ -10,6 +10,8 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import ru.netology.myapplication.adapter.RecipeAdapter
 import ru.netology.myapplication.databinding.FeedFragmentBinding
+import ru.netology.myapplication.view_model.MainViewModel
+import ru.netology.myapplication.view_model.RecipeViewModel
 
 class FeedFragment : Fragment() {
 
@@ -54,8 +56,8 @@ class FeedFragment : Fragment() {
     ) = FeedFragmentBinding.inflate(layoutInflater, container, false).also { binding ->
         val adapter = RecipeAdapter(viewModel)
         binding.recipesRecyclerView.adapter = adapter
-        viewModel.data.observe(viewLifecycleOwner) { pair ->
-            val recipes = pair.first?: emptyList()
+        viewModel.recipeData.observe(viewLifecycleOwner) { recipes ->
+//            val recipes = pair.first?: emptyList()
             adapter.submitList(recipes)
 
             // region setDummyOnScreen
@@ -90,7 +92,7 @@ class FeedFragment : Fragment() {
     }.root
 
     companion object{
-        const val NEW_RECIPE = -1L
+        const val NEW_RECIPE = 0L
         var FAB_STATE = true
     }
 }

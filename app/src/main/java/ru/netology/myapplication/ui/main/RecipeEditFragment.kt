@@ -10,6 +10,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.chip.Chip
 import ru.netology.myapplication.databinding.RecipeEditFragmentBinding
+import ru.netology.myapplication.view_model.MainViewModel
 
 
 class RecipeEditFragment : Fragment() {
