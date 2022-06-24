@@ -44,9 +44,9 @@ class RecipeFragment : Fragment() {
             onCloseButtonClicked()
         }
         /**
-        /adapter Не требует обновлений
+        StepAdapter Не требует обновлений
          */
-        val adapter = StepAdapter(viewModel.liveDataSteps.value?: emptyList())
+        val adapter = StepAdapter(viewModel.stepsData.value?: emptyList())
         binding.recipeStepsView.adapter = adapter
 
     }.root

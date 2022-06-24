@@ -2,9 +2,9 @@ package ru.netology.myapplication.view_model
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import ru.netology.myapplication.adapter.RecipeInteractionsListener
+import ru.netology.myapplication.adapter.StepEditInteractionListener
 import ru.netology.myapplication.data.RecipeRepository
 import ru.netology.myapplication.data.RecipeRepositoryImpl
 import ru.netology.myapplication.data.StepRepository
@@ -16,7 +16,7 @@ import ru.netology.myapplication.util.PairMediatorLiveData
 import ru.netology.myapplication.util.SingleLiveEvent
 
 class MainViewModel(application: Application) : AndroidViewModel(application),
-    RecipeInteractionsListener {
+    RecipeInteractionsListener, StepEditInteractionListener {
 
     private val recipeRepository: RecipeRepository = RecipeRepositoryImpl(
         dao = AppDatabase.getInstance(
@@ -31,25 +31,27 @@ class MainViewModel(application: Application) : AndroidViewModel(application),
     )
 
     val recipeData by recipeRepository::recipeData
+    val stepsData by stepsRepository::stepsData
 
-    private val _liveDataOne = MutableLiveData<List<Recipe>>()
-    val liveDataRecipes: LiveData<List<Recipe>> = _liveDataOne
+//    private val _liveDataOne = MutableLiveData<List<Recipe>>()
+//    val liveDataRecipes: LiveData<List<Recipe>> = _liveDataOne
+//
+//    private val _liveDataTwo = MutableLiveData<List<Step>>()
+//    val liveDataSteps: LiveData<List<Step>> = _liveDataTwo
 
-    private val _liveDataTwo = MutableLiveData<List<Step>>()
-    val liveDataSteps: LiveData<List<Step>> = _liveDataTwo
-
-    val data = PairMediatorLiveData(_liveDataOne, _liveDataTwo)
+    val data = PairMediatorLiveData(recipeData, stepsData)
 
     val navigateToRecipeFragment = SingleLiveEvent<Long>()
     val navigateToRecipeEditFragment = SingleLiveEvent<Long>()
-    private val currentPost = MutableLiveData<Recipe?>(null)
+    private val currentRecipe = MutableLiveData<Recipe?>(null)
+    private val currentStep = MutableLiveData<Step?>(null)
 
     fun getRecipeById(recipeId: Long) =
         recipeRepository.getRecipeById(recipeId)
 
     fun onSaveButtonClick(title: String, author: String, category: String) {
         if (title.isBlank() or author.isBlank()) return
-        val newRecipe = currentPost.value?.copy(
+        val newRecipe = currentRecipe.value?.copy(
             author = author,
             title = title,
             category = category
@@ -60,7 +62,25 @@ class MainViewModel(application: Application) : AndroidViewModel(application),
             category = category
         )
         recipeRepository.save(newRecipe)
-        currentPost.value = null
+        currentRecipe.value = null
+    }
+
+    fun saveSteps(steps: List<Step>) {
+//        steps.forEach{ step ->
+//
+//        }
+//        val newStep = currentStep.value?.copy(
+//            recipeIdStep = recipeIdStep,
+//            stepOrder = stepOrder,
+//            stepText = stepText,
+//            stepImage = null,
+//        ) ?: Recipe(
+//            recipeId = StepRepository.NEW_STEP_ID,
+//            author = author,
+//            title = title,
+//            category = category
+//        )
+        stepsRepository.save(steps)
     }
 
     fun onAddClicked() {
@@ -71,7 +91,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application),
         navigateToRecipeFragment.value = recipe.recipeId
     }
 
-    // region PostInteractionsListener
+    // region RecipeInteractionsListener
     override fun onLikeClicked(recipe: Recipe) {
         return recipeRepository.like(recipe.recipeId)
     }
@@ -81,9 +101,25 @@ class MainViewModel(application: Application) : AndroidViewModel(application),
     }
 
     override fun onEditClicked(recipe: Recipe) {
-        currentPost.value = recipe
+        currentRecipe.value = recipe
         navigateToRecipeEditFragment.value = recipe.recipeId
     }
-    // endregion PostInteractionsListener
+    // endregion RecipeInteractionsListener
 
+    // region StepsInteractionsListener
+    fun getStepsByRecipeId(recipeId: Long) =
+        stepsRepository.getStepsByRecipeId(recipeId)
+
+    override fun onStepDeleteClicked(step: Step) {
+        stepsRepository.delete(step.stepId)
+    }
+
+    override fun onStepUpClicked(step: Step) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onStepDownClicked(step: Step) {
+        TODO("Not yet implemented")
+    }
+    // endregion StepsInteractionsListener
 }

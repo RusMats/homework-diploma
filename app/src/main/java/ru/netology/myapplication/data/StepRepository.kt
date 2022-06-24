@@ -10,7 +10,7 @@ interface StepRepository {
 
     fun delete(stepId: Long)
 
-    fun save(steps: LiveData<List<Step>>)
+    fun save(steps: List<Step>)
 
     companion object {
         const val NEW_STEP_ID = 0L

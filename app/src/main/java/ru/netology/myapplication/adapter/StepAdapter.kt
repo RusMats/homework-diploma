@@ -28,7 +28,7 @@ class StepAdapter(private val steps: List<Step>) : RecyclerView
         fun bind(step: Step) {
             this.step = step
             with(binding) {
-                stepText.setText(step.stepText)
+                stepText.text = step.stepText
 //                stepImage TODO: stepImage
             }
         }

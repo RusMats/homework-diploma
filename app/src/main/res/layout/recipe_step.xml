@@ -17,7 +17,7 @@
         tools:srcCompat="@tools:sample/backgrounds/scenic"
         tools:visibility="visible" />
 
-    <com.google.android.material.textfield.TextInputEditText
+    <TextView
         android:id="@+id/stepText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

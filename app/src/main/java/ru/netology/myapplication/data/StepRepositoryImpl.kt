@@ -22,12 +22,10 @@ class StepRepositoryImpl(
         dao.deleteById(stepId)
     }
 
-    override fun save(steps: LiveData<List<Step>>) {
-        steps.map {
-            it.map {step->
+    override fun save(steps: List<Step>) {
+        steps.map { step->
                 if (step.stepId == StepRepository.NEW_STEP_ID) dao.insert(step.toEntity())
                 else dao.updateById(step.stepId, step.stepOrder, step.stepText, step.stepImage)
-            }
         }
     }
 }

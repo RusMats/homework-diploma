@@ -76,7 +76,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recipeStepsView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintTop_toBottomOf="@+id/header"
             tools:layout_editor_absoluteX="0dp"
