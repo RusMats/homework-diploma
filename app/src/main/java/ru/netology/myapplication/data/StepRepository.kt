@@ -6,7 +6,7 @@ import ru.netology.myapplication.dto.Step
 interface StepRepository {
     val stepsData: LiveData<List<Step>>
 
-    fun getStepsByRecipeId(recipeId: Long): LiveData<List<Step>>
+    fun getStepsByRecipeId(recipeId: Long): List<Step>
 
     fun delete(stepId: Long)
 

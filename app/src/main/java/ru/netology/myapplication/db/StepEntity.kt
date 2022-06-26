@@ -12,7 +12,7 @@ class StepEntity (
     @ColumnInfo(name = "recipeIdStep")
     val recipeIdStep: Long,
     @ColumnInfo(name = "stepOrder")
-    val stepOrder: Long,
+    val stepOrder: Int,
     @ColumnInfo(name = "stepText")
     val stepText: String,
     @ColumnInfo(name = "stepImage")

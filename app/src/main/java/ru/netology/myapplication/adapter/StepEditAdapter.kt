@@ -2,7 +2,7 @@ package ru.netology.myapplication.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-
+import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -35,16 +35,24 @@ class StepEditAdapter(
             binding.imageButtonUp.setOnClickListener { listener.onStepUpClicked(step) }
             binding.imageButtonDown.setOnClickListener { listener.onStepDownClicked(step) }
 //            binding.fabAddImage.setOnClickListener { listener.onAddClicked() } TODO: stepImage
+
+            binding.stepText.addTextChangedListener {
+                listener.onStepTextEdit(step.copy(
+                    stepText = it.toString()
+                ))
+            }
         }
 
         fun bind(step: Step) {
             this.step = step
             with(binding) {
                 stepText.setText(step.stepText)
+                stepText.setSelection(step.stepText.length)
 //                stepImage TODO: stepImage
             }
         }
     }
+
 
     private object DiffCallback : DiffUtil.ItemCallback<Step>() {
 

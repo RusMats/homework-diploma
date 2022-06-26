@@ -2,6 +2,7 @@ package ru.netology.myapplication.view_model
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import ru.netology.myapplication.adapter.RecipeInteractionsListener
 import ru.netology.myapplication.adapter.StepEditInteractionListener
@@ -33,18 +34,10 @@ class MainViewModel(application: Application) : AndroidViewModel(application),
     val recipeData by recipeRepository::recipeData
     val stepsData by stepsRepository::stepsData
 
-//    private val _liveDataOne = MutableLiveData<List<Recipe>>()
-//    val liveDataRecipes: LiveData<List<Recipe>> = _liveDataOne
-//
-//    private val _liveDataTwo = MutableLiveData<List<Step>>()
-//    val liveDataSteps: LiveData<List<Step>> = _liveDataTwo
-
-    val data = PairMediatorLiveData(recipeData, stepsData)
-
     val navigateToRecipeFragment = SingleLiveEvent<Long>()
     val navigateToRecipeEditFragment = SingleLiveEvent<Long>()
     private val currentRecipe = MutableLiveData<Recipe?>(null)
-    private val currentStep = MutableLiveData<Step?>(null)
+//    private val currentStep = MutableLiveData<Step?>(null)
 
     fun getRecipeById(recipeId: Long) =
         recipeRepository.getRecipeById(recipeId)
@@ -66,20 +59,6 @@ class MainViewModel(application: Application) : AndroidViewModel(application),
     }
 
     fun saveSteps(steps: List<Step>) {
-//        steps.forEach{ step ->
-//
-//        }
-//        val newStep = currentStep.value?.copy(
-//            recipeIdStep = recipeIdStep,
-//            stepOrder = stepOrder,
-//            stepText = stepText,
-//            stepImage = null,
-//        ) ?: Recipe(
-//            recipeId = StepRepository.NEW_STEP_ID,
-//            author = author,
-//            title = title,
-//            category = category
-//        )
         stepsRepository.save(steps)
     }
 
@@ -110,16 +89,23 @@ class MainViewModel(application: Application) : AndroidViewModel(application),
     fun getStepsByRecipeId(recipeId: Long) =
         stepsRepository.getStepsByRecipeId(recipeId)
 
+    override fun onStepTextEdit(step: Step) {
+        stepsRepository.save(listOf(step))
+    }
+
     override fun onStepDeleteClicked(step: Step) {
         stepsRepository.delete(step.stepId)
     }
 
     override fun onStepUpClicked(step: Step) {
-        TODO("Not yet implemented")
+        val size = stepsRepository.getStepsByRecipeId(step.recipeIdStep).size
+        if (size > step.stepOrder) stepsRepository.save(listOf(
+            step.copy(stepOrder = step.stepOrder + 1)))
     }
 
     override fun onStepDownClicked(step: Step) {
-        TODO("Not yet implemented")
+        if (step.stepOrder>0) stepsRepository.save(listOf(step.copy(
+            stepOrder = step.stepOrder - 1)))
     }
     // endregion StepsInteractionsListener
 }

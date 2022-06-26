@@ -3,6 +3,7 @@ package ru.netology.myapplication.ui.main
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.EditText
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.viewModels
@@ -39,6 +40,7 @@ class RecipeEditFragment : Fragment() {
             resultBundle.putString(RESULT_CATEGORY, category)
             setFragmentResult(REQUEST_KEY, resultBundle)
         }
+
         viewModel.saveSteps(listSteps)
         findNavController().popBackStack()
     }
@@ -54,11 +56,9 @@ class RecipeEditFragment : Fragment() {
         val adapter = StepEditAdapter(viewModel)
         binding.recipeStepsView.adapter = adapter
 
-        viewModel.stepsData.observe(viewLifecycleOwner) { steps ->
-            val recipeSteps = steps.filter { it.recipeIdStep == recipeId }
-            adapter.submitList(recipeSteps)
-            listSteps = recipeSteps.toMutableList()
-        }
+//        binding.recipeStepsView.setOnContextClickListener {
+//            binding.recipeStepsView.adapter.notifyTextChanged()
+//        }
 
         if (recipeId != FeedFragment.NEW_RECIPE){
             val recipe = viewModel.getRecipeById(recipeId)
@@ -69,16 +69,21 @@ class RecipeEditFragment : Fragment() {
             }
         }
 
+        viewModel.stepsData.observe(viewLifecycleOwner) { steps ->
+            val recipeSteps = steps.filter { it.recipeIdStep == recipeId }
+            adapter.submitList(recipeSteps)
+            listSteps = recipeSteps.toMutableList()
+        }
+
         binding.fabAddStep.setOnClickListener {
             val newStep = Step(
                 stepId = 0L,
                 recipeIdStep = recipeId,
-                stepOrder = 1,
-                stepText = "Helloy",
+                stepOrder = adapter.itemCount + 1,
+                stepText = "",
                 stepImage = null
             )
-            listSteps.add(newStep)
-            onStepAddClicked()
+            onStepAddClicked(newStep)
         }
 
         binding.closeEdit.setOnClickListener {
@@ -91,8 +96,8 @@ class RecipeEditFragment : Fragment() {
 
     }.root
 
-    private fun onStepAddClicked() {
-//        viewModel.stepsData.setValue(listSteps)
+    private fun onStepAddClicked(newStep:Step) {
+        viewModel.saveSteps(listOf(newStep))
     }
 
     companion object {
@@ -100,6 +105,6 @@ class RecipeEditFragment : Fragment() {
         const val RESULT_TITLE = "title"
         const val RESULT_AUTHOR = "author"
         const val RESULT_CATEGORY = "category"
-        const val RESULT_STEPS = "steps"
+//        const val RESULT_STEPS = "steps"
     }
 }

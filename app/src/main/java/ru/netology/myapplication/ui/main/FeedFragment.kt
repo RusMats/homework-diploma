@@ -8,10 +8,11 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.ItemTouchHelper
 import ru.netology.myapplication.adapter.RecipeAdapter
 import ru.netology.myapplication.databinding.FeedFragmentBinding
 import ru.netology.myapplication.view_model.MainViewModel
-import ru.netology.myapplication.view_model.RecipeViewModel
+
 
 class FeedFragment : Fragment() {
 

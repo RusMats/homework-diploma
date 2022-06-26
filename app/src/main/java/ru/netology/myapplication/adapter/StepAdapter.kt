@@ -35,4 +35,5 @@ class StepAdapter(private val steps: List<Step>) : RecyclerView
     }
 
     override fun getItemCount() = steps.size
+
 }

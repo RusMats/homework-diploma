@@ -9,11 +9,11 @@ import ru.netology.myapplication.dto.Step
 
 @Dao
 interface StepsDao {
-    @Query("SELECT*FROM steps ORDER BY stepId DESC")
+    @Query("SELECT*FROM steps ORDER BY stepOrder DESC")
     fun getSteps(): LiveData<List<StepEntity>>
 
     @Query("SELECT*FROM steps WHERE recipeIdStep = :recipeId ORDER BY stepOrder DESC")
-    fun getStepsByRecipeId(recipeId: Long): LiveData<List<StepEntity>>
+    fun getStepsByRecipeId(recipeId: Long): List<StepEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(step: StepEntity)
@@ -26,11 +26,12 @@ interface StepsDao {
         WHERE stepId = :stepId
     """
     )
-    fun updateById(stepId:Long, stepOrder: Long, stepText: String, stepImage: String?)
+    fun updateById(stepId:Long, stepOrder: Int, stepText: String, stepImage: String?)
 
     @Query("SELECT*FROM steps WHERE stepId = :stepId")
     fun getStepById(stepId: Long): Step?
 
     @Query("DELETE FROM steps WHERE stepId = :stepId")
     fun deleteById(stepId: Long)
+
 }

@@ -1,6 +1,5 @@
 package ru.netology.myapplication.data
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.map
 import ru.netology.myapplication.db.StepsDao
 import ru.netology.myapplication.db.toEntity
@@ -16,7 +15,7 @@ class StepRepositoryImpl(
     }
 
     override fun getStepsByRecipeId(recipeId: Long) =
-    dao.getStepsByRecipeId(recipeId).map { it.map { it.toModel() } }
+    dao.getStepsByRecipeId(recipeId).map {  it.toModel() }
 
     override fun delete(stepId: Long) {
         dao.deleteById(stepId)
