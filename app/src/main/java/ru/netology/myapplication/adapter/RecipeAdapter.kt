@@ -3,16 +3,19 @@ package ru.netology.myapplication.adapter
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.PopupMenu
+import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import ru.netology.myapplication.R
 import ru.netology.myapplication.databinding.RecipeCardBinding
 import ru.netology.myapplication.dto.Recipe
+import ru.netology.myapplication.util.ItemTouchMoveCallback
 
 class RecipeAdapter(
     private val interactionsListener: RecipeInteractionsListener
-) : ListAdapter<Recipe, RecipeAdapter.ViewHolder>(DiffCallback) {
+) : ListAdapter<Recipe, RecipeAdapter.ViewHolder>(DiffCallback),
+    ItemTouchMoveCallback.ItemTouchAdapter {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -24,10 +27,23 @@ class RecipeAdapter(
         holder.bind(getItem(position))
     }
 
+    private val differ = AsyncListDiffer(this, DiffCallback)
+
+    override fun onMove(startPosition: Int, targetPosition: Int) {
+        val list = differ.currentList.toMutableList()
+//        val targetItem = list[targetPosition]
+//        list[targetPosition] = list[startPosition]
+//        list[startPosition] = targetItem
+//        differ.submitList(list)
+        // падает на 0 объекте
+        notifyItemMoved(startPosition, targetPosition)
+    }
+
     inner class ViewHolder(
         private val binding: RecipeCardBinding,
         listener: RecipeInteractionsListener
     ) : RecyclerView.ViewHolder(binding.root) {
+
         private lateinit var recipe: Recipe
 
         init {
@@ -72,6 +88,5 @@ class RecipeAdapter(
             oldItem.recipeId == newItem.recipeId
 
         override fun areContentsTheSame(oldItem: Recipe, newItem: Recipe) = oldItem == newItem
-
     }
 }

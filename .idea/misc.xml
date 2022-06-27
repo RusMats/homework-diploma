@@ -5,6 +5,7 @@
       <map>
         <entry key="..\:/Users/spyde/AndroidStudioProjects/MyApplication2/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.30416666666666664" />
         <entry key="..\:/Users/spyde/AndroidStudioProjects/MyApplication2/app/src/main/res/drawable/ic_baseline_add_24dp.xml" value="0.37864583333333335" />
+        <entry key="..\:/Users/spyde/AndroidStudioProjects/MyApplication2/app/src/main/res/drawable/ic_baseline_arrow_forward_ios_24dp.xml" value="0.3728205128205128" />
         <entry key="..\:/Users/spyde/AndroidStudioProjects/MyApplication2/app/src/main/res/drawable/ic_baseline_check_24dp.xml" value="0.2552083333333333" />
         <entry key="..\:/Users/spyde/AndroidStudioProjects/MyApplication2/app/src/main/res/drawable/ic_baseline_close_24dp.xml" value="0.2552083333333333" />
         <entry key="..\:/Users/spyde/AndroidStudioProjects/MyApplication2/app/src/main/res/drawable/ic_baseline_cookie_24.xml" value="0.30416666666666664" />
@@ -22,7 +23,7 @@
         <entry key="..\:/Users/spyde/AndroidStudioProjects/MyApplication2/app/src/main/res/layout/edit_recipe.xml" value="0.3625" />
         <entry key="..\:/Users/spyde/AndroidStudioProjects/MyApplication2/app/src/main/res/layout/edit_recipe_fragment.xml" value="0.2046875" />
         <entry key="..\:/Users/spyde/AndroidStudioProjects/MyApplication2/app/src/main/res/layout/feed_fragment.xml" value="0.25" />
-        <entry key="..\:/Users/spyde/AndroidStudioProjects/MyApplication2/app/src/main/res/layout/filters.xml" value="0.5" />
+        <entry key="..\:/Users/spyde/AndroidStudioProjects/MyApplication2/app/src/main/res/layout/filters.xml" value="0.33" />
         <entry key="..\:/Users/spyde/AndroidStudioProjects/MyApplication2/app/src/main/res/layout/fragment_blank.xml" value="0.28802083333333334" />
         <entry key="..\:/Users/spyde/AndroidStudioProjects/MyApplication2/app/src/main/res/layout/login.xml" value="0.25" />
         <entry key="..\:/Users/spyde/AndroidStudioProjects/MyApplication2/app/src/main/res/layout/main_activity.xml" value="0.33" />

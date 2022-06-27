@@ -70,6 +70,9 @@ class MainViewModel(application: Application) : AndroidViewModel(application),
         navigateToRecipeFragment.value = recipe.recipeId
     }
 
+    override fun onFilterClicked(recipes: List<Recipe>, categories:List<String>) = recipes.filter {
+        categories.contains(it.category)}
+
     // region RecipeInteractionsListener
     override fun onLikeClicked(recipe: Recipe) {
         return recipeRepository.like(recipe.recipeId)

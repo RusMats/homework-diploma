@@ -4,19 +4,25 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
+import com.google.android.material.chip.Chip
 import ru.netology.myapplication.adapter.RecipeAdapter
 import ru.netology.myapplication.databinding.FeedFragmentBinding
+import ru.netology.myapplication.util.ItemTouchMoveCallback
 import ru.netology.myapplication.view_model.MainViewModel
 
 
 class FeedFragment : Fragment() {
 
     private val viewModel by viewModels<MainViewModel>(ownerProducer = ::requireParentFragment)
+//    private val adapter = RecipeAdapter(viewModel)
+//    private val dragCallback = ItemTouchMoveCallback(adapter)
+//    private val touchHelper =ItemTouchHelper(dragCallback)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,7 +45,7 @@ class FeedFragment : Fragment() {
 
         viewModel.navigateToRecipeEditFragment.observe(this) { recipeId ->
             val recipe:Long = recipeId?: NEW_RECIPE
-//            arguments? как лучше передать аргумент не null
+//            bundle? safe arguments - Long not null
             val direction = FeedFragmentDirections.actionFeedFragmentToRecipeEditFragment(recipe)
             findNavController().navigate(direction)
         }
@@ -55,10 +61,13 @@ class FeedFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ) = FeedFragmentBinding.inflate(layoutInflater, container, false).also { binding ->
+
         val adapter = RecipeAdapter(viewModel)
         binding.recipesRecyclerView.adapter = adapter
+        val dragCallback = ItemTouchMoveCallback(adapter)
+        val touchHelper = ItemTouchHelper(dragCallback)
+        touchHelper.attachToRecyclerView(binding.recipesRecyclerView)
         viewModel.recipeData.observe(viewLifecycleOwner) { recipes ->
-//            val recipes = pair.first?: emptyList()
             adapter.submitList(recipes)
 
             // region setDummyOnScreen
@@ -83,13 +92,33 @@ class FeedFragment : Fragment() {
                     FAB_STATE = true
                 }
             }
+
+            binding.chipGroupContent.setOnCheckedStateChangeListener { group, checkedIds ->
+                val categories:List<String> = checkedIds.map {
+                    view?.findViewById<Chip>(it)?.tag.toString()
+                }
+                val listRecipes = viewModel.onFilterClicked(recipes, categories)
+                adapter.submitList(listRecipes)
+            }
+        }
+
+        binding.closeNavigationView.setOnClickListener {
+            if (binding.navigationView.isVisible) {
+                binding.navigationView.visibility = View.GONE
+            }
+        }
+
+        binding.filter.setOnClickListener{
+            if (!binding.navigationView.isVisible){
+                binding.navigationView.visibility = View.VISIBLE
+            } else {
+                binding.navigationView.visibility = View.GONE
+            }
         }
 
         binding.fabAdd.setOnClickListener {
             viewModel.onAddClicked()
         }
-
-
     }.root
 
     companion object{

@@ -7,4 +7,5 @@ interface RecipeInteractionsListener {
     fun onDeleteClicked(recipe: Recipe)
     fun onEditClicked(recipe: Recipe)
     fun onRecipeClicked(recipe: Recipe)
+    fun onFilterClicked(recipes:List<Recipe>, categories:List<String>):List<Recipe>
 }

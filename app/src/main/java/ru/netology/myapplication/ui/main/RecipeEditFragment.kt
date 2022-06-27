@@ -56,10 +56,6 @@ class RecipeEditFragment : Fragment() {
         val adapter = StepEditAdapter(viewModel)
         binding.recipeStepsView.adapter = adapter
 
-//        binding.recipeStepsView.setOnContextClickListener {
-//            binding.recipeStepsView.adapter.notifyTextChanged()
-//        }
-
         if (recipeId != FeedFragment.NEW_RECIPE){
             val recipe = viewModel.getRecipeById(recipeId)
             if (recipe != null) {
