@@ -6,6 +6,9 @@ import androidx.recyclerview.widget.RecyclerView
 import ru.netology.myapplication.databinding.RecipeStepBinding
 import ru.netology.myapplication.dto.Step
 
+/**
+StepAdapter Не требует обновлений
+ */
 
 class StepAdapter(private val steps: List<Step>) : RecyclerView
 .Adapter<StepAdapter.ViewHolder>() {
@@ -35,5 +38,4 @@ class StepAdapter(private val steps: List<Step>) : RecyclerView
     }
 
     override fun getItemCount() = steps.size
-
 }

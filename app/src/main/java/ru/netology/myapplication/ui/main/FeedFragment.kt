@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.SearchView
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResultListener
@@ -44,13 +45,13 @@ class FeedFragment : Fragment() {
         }
 
         viewModel.navigateToRecipeEditFragment.observe(this) { recipeId ->
-            val recipe:Long = recipeId?: NEW_RECIPE
+            val recipe: Long = recipeId ?: NEW_RECIPE
 //            bundle? safe arguments - Long not null
             val direction = FeedFragmentDirections.actionFeedFragmentToRecipeEditFragment(recipe)
             findNavController().navigate(direction)
         }
 
-        viewModel.navigateToRecipeFragment.observe(this) {recipeId ->
+        viewModel.navigateToRecipeFragment.observe(this) { recipeId ->
             val direction = FeedFragmentDirections.actionFeedFragmentToRecipeFragment(recipeId)
             findNavController().navigate(direction)
         }
@@ -93,13 +94,29 @@ class FeedFragment : Fragment() {
                 }
             }
 
-            binding.chipGroupContent.setOnCheckedStateChangeListener { group, checkedIds ->
-                val categories:List<String> = checkedIds.map {
+            binding.chipGroupContent.setOnCheckedStateChangeListener { _, checkedIds ->
+                val categories: List<String> = checkedIds.map {
                     view?.findViewById<Chip>(it)?.tag.toString()
                 }
-                val listRecipes = viewModel.onFilterClicked(recipes, categories)
-                adapter.submitList(listRecipes)
+                adapter.submitList(viewModel.onFilterClicked(recipes, categories))
             }
+
+            binding.searchBar.setOnQueryTextListener(object :
+                androidx.appcompat.widget.SearchView.OnQueryTextListener {
+                override fun onQueryTextSubmit(query: String?): Boolean {
+                    return false
+                }
+
+                override fun onQueryTextChange(newText: String?): Boolean {
+                    if (newText != null) {
+                        adapter.submitList(recipes.filter {
+                            it.title.contains(newText)
+                        })
+                    } else { adapter.submitList(recipes) }
+                    return false
+                }
+            })
+
         }
 
         binding.closeNavigationView.setOnClickListener {
@@ -108,8 +125,8 @@ class FeedFragment : Fragment() {
             }
         }
 
-        binding.filter.setOnClickListener{
-            if (!binding.navigationView.isVisible){
+        binding.filter.setOnClickListener {
+            if (!binding.navigationView.isVisible) {
                 binding.navigationView.visibility = View.VISIBLE
             } else {
                 binding.navigationView.visibility = View.GONE
@@ -121,7 +138,7 @@ class FeedFragment : Fragment() {
         }
     }.root
 
-    companion object{
+    companion object {
         const val NEW_RECIPE = 0L
         var FAB_STATE = true
     }

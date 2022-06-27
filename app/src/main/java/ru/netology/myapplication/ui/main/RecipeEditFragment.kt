@@ -40,7 +40,6 @@ class RecipeEditFragment : Fragment() {
             resultBundle.putString(RESULT_CATEGORY, category)
             setFragmentResult(REQUEST_KEY, resultBundle)
         }
-
         viewModel.saveSteps(listSteps)
         findNavController().popBackStack()
     }

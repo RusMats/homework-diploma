@@ -8,6 +8,8 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import ru.netology.myapplication.adapter.StepAdapter
+import ru.netology.myapplication.data.StepRepository
+import ru.netology.myapplication.data.StepRepositoryImpl
 import ru.netology.myapplication.databinding.RecipeFragmentBinding
 import ru.netology.myapplication.view_model.MainViewModel
 
@@ -43,10 +45,9 @@ class RecipeFragment : Fragment() {
         binding.close.setOnClickListener {
             onCloseButtonClicked()
         }
-        /**
-        StepAdapter Не требует обновлений
-         */
-        val adapter = StepAdapter(viewModel.stepsData.value?: emptyList())
+
+        val steps = viewModel.getStepsByRecipeId(args.recipeId)
+        val adapter = StepAdapter(steps.filter { it.recipeIdStep == args.recipeId })
         binding.recipeStepsView.adapter = adapter
 
     }.root

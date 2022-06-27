@@ -2,7 +2,6 @@ package ru.netology.myapplication.view_model
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import ru.netology.myapplication.adapter.RecipeInteractionsListener
 import ru.netology.myapplication.adapter.StepEditInteractionListener
@@ -13,7 +12,6 @@ import ru.netology.myapplication.data.StepRepositoryImpl
 import ru.netology.myapplication.db.AppDatabase
 import ru.netology.myapplication.dto.Recipe
 import ru.netology.myapplication.dto.Step
-import ru.netology.myapplication.util.PairMediatorLiveData
 import ru.netology.myapplication.util.SingleLiveEvent
 
 class MainViewModel(application: Application) : AndroidViewModel(application),
