@@ -8,17 +8,17 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
 import com.google.android.material.chip.Chip
 import ru.netology.myapplication.adapter.StepEditAdapter
+import ru.netology.myapplication.data.RecipeRepository
 import ru.netology.myapplication.databinding.RecipeEditFragmentBinding
 import ru.netology.myapplication.dto.Step
 import ru.netology.myapplication.view_model.MainViewModel
 
 
-class RecipeEditFragment : Fragment() {
+class RecipeAddFragment : Fragment() {
     private val viewModel by viewModels<MainViewModel>(ownerProducer = ::requireParentFragment)
-    private val args by navArgs<RecipeEditFragmentArgs>()
+
     private lateinit var listSteps: MutableList<Step>
 
     private fun onCloseButtonClicked() {
@@ -31,12 +31,11 @@ class RecipeEditFragment : Fragment() {
         val category = binding.chipGroupEdit.findViewById<Chip>(binding.chipGroupEdit.checkedChipId)
             .tag.toString()
         if (!title.isNullOrBlank() and !author.isNullOrBlank()) {
-            val resultBundle = Bundle(3)
-            resultBundle.putString(RESULT_TITLE, title.toString())
-            resultBundle.putString(RESULT_AUTHOR, author.toString())
-            resultBundle.putString(RESULT_CATEGORY, category)
-            setFragmentResult(REQUEST_KEY, resultBundle)
-            viewModel.saveSteps(listSteps)
+            val newRecipeId = viewModel.onSaveButtonClick(title.toString(), author.toString(), category)
+            viewModel.saveSteps(listSteps.map {
+                it.copy(recipeIdStep = newRecipeId)
+            })
+            viewModel.clearNewSteps()
             findNavController().popBackStack()
         } else onEmptyToast(title.isNullOrBlank(), author.isNullOrBlank())
     }
@@ -48,11 +47,11 @@ class RecipeEditFragment : Fragment() {
     ) = RecipeEditFragmentBinding.inflate(
         layoutInflater, container, false
     ).also { binding ->
-        val recipeId = args.recipeId
+        val recipeId = RecipeRepository.NEW_RECIPE_ID
         val adapter = StepEditAdapter(viewModel)
         binding.recipeStepsView.adapter = adapter
 
-        if (recipeId != FeedFragment.NEW_RECIPE){
+        if (recipeId != FeedFragment.NEW_RECIPE) {
             val recipe = viewModel.getRecipeById(recipeId)
             if (recipe != null) {
                 binding.titleTextEdit.setText(recipe.title)
@@ -86,16 +85,17 @@ class RecipeEditFragment : Fragment() {
         }
     }.root
 
-    private fun onStepAddClicked(newStep:Step) {
+    private fun onStepAddClicked(newStep: Step) {
         viewModel.saveSteps(listOf(newStep))
     }
 
-    private fun onEmptyToast(titleIsEmpty:Boolean, authorIsEmpty:Boolean) {
+    private fun onEmptyToast(titleIsEmpty: Boolean, authorIsEmpty: Boolean) {
         val content = "is empty"
         val titleName = "Title"
         val authorName = "Author"
-        if (titleIsEmpty) Toast.makeText(context,"$titleName $content", Toast.LENGTH_SHORT).show()
-        else if (authorIsEmpty) Toast.makeText(context,"$authorName $content", Toast.LENGTH_SHORT).show()
+        if (titleIsEmpty) Toast.makeText(context, "$titleName $content", Toast.LENGTH_SHORT).show()
+        else if (authorIsEmpty) Toast.makeText(context, "$authorName $content", Toast.LENGTH_SHORT)
+            .show()
     }
 
     companion object {

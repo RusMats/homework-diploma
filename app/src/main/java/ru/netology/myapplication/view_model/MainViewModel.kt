@@ -40,8 +40,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application),
     fun getRecipeById(recipeId: Long) =
         recipeRepository.getRecipeById(recipeId)
 
-    fun onSaveButtonClick(title: String, author: String, category: String) {
-        if (title.isBlank() or author.isBlank()) return
+    fun onSaveButtonClick(title: String, author: String, category: String):Long {
         val newRecipe = currentRecipe.value?.copy(
             author = author,
             title = title,
@@ -52,15 +51,34 @@ class MainViewModel(application: Application) : AndroidViewModel(application),
             title = title,
             category = category
         )
-        recipeRepository.save(newRecipe)
+        val newRecipeId = recipeRepository.save(newRecipe)
         currentRecipe.value = null
+        return newRecipeId
+//        val newSteps = stepsRepository.getStepsByRecipeId(RecipeRepository.NEW_RECIPE_ID).map {
+//            it.copy(recipeIdStep = newId)
+//        }
+//        stepsRepository.save(newSteps)
+//        stepsRepository.delete(RecipeRepository.NEW_RECIPE_ID)
     }
 
     fun saveSteps(steps: List<Step>) {
         stepsRepository.save(steps)
     }
 
+    fun clearNewSteps(){
+        stepsRepository.deleteByRecipeId(RecipeRepository.NEW_RECIPE_ID)
+    }
+
     fun onAddClicked() {
+//        val newRecipe = Recipe(
+//            recipeId = RecipeRepository.NEW_RECIPE_ID,
+//            author = "",
+//            title = "",
+//            category = "European"
+//        )
+//        val newId = recipeRepository.save(newRecipe)
+//        navigateToRecipeEditFragment.value = newId
+        stepsRepository.delete(RecipeRepository.NEW_RECIPE_ID)
         navigateToRecipeEditFragment.call()
     }
 

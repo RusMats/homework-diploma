@@ -41,4 +41,14 @@
             android:name="recipeId"
             app:argType="long" />
     </fragment>
+    <fragment
+        android:id="@+id/recipeAddFragment"
+        android:name="ru.netology.myapplication.ui.main.RecipeAddFragment"
+        android:label="recipe_add_fragment"
+        tools:layout="@layout/recipe_add_fragment" />
+    <fragment
+        android:id="@+id/favFeedFragment"
+        android:name="ru.netology.myapplication.ui.main.FavFeedFragment"
+        android:label="fav_feed_fragment"
+        tools:layout="@layout/fav_feed_fragment" />
 </navigation>

@@ -17,6 +17,10 @@ class StepRepositoryImpl(
     override fun getStepsByRecipeId(recipeId: Long) =
     dao.getStepsByRecipeId(recipeId).map {  it.toModel() }
 
+    override fun deleteByRecipeId(recipeId: Long) {
+        dao.deleteByRecipeId(recipeId)
+    }
+
     override fun delete(stepId: Long) {
         dao.deleteById(stepId)
     }
@@ -24,7 +28,7 @@ class StepRepositoryImpl(
     override fun save(steps: List<Step>) {
         steps.map { step->
                 if (step.stepId == StepRepository.NEW_STEP_ID) dao.insert(step.toEntity())
-                else dao.updateById(step.stepId, step.stepOrder, step.stepText, step.stepImage)
+                else dao.updateById(step.stepId, step.recipeIdStep, step.stepOrder, step.stepText, step.stepImage)
         }
     }
 }

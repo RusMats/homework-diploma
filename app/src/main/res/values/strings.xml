@@ -15,4 +15,7 @@
     <string name="enter_title">Enter Title</string>
     <string name="save">Save</string>
     <string name="close">Close</string>
+    <string name="favorite">Favorite</string>
+    <string name="add_recipe">Add</string>
+    <string name="home">Home</string>
 </resources>
