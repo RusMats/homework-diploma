@@ -69,7 +69,7 @@ class RecipeEditFragment : Fragment() {
 
         binding.fabAddStep.setOnClickListener {
             val newStep = Step(
-                stepId = 0L,
+                stepId = FeedFragment.NEW_STEP,
                 recipeIdStep = recipeId,
                 stepOrder = adapter.itemCount + 1,
                 stepText = "",

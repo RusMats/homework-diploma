@@ -14,6 +14,8 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.chip.Chip
 import ru.netology.myapplication.adapter.RecipeAdapter
+import ru.netology.myapplication.data.RecipeRepository
+import ru.netology.myapplication.data.StepRepository
 import ru.netology.myapplication.databinding.FeedFragmentBinding
 import ru.netology.myapplication.util.ItemTouchMoveCallback
 import ru.netology.myapplication.view_model.MainViewModel
@@ -124,6 +126,7 @@ class FeedFragment : Fragment() {
     }.root
 
     companion object {
-        const val NEW_RECIPE = 0L
+        const val NEW_RECIPE = RecipeRepository.NEW_RECIPE_ID
+        const val NEW_STEP = StepRepository.NEW_STEP_ID
     }
 }

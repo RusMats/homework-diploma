@@ -19,14 +19,15 @@ interface StepsDao {
     fun insert(step: StepEntity)
 
     @Query(
-        """UPDATE steps SET  
+        """UPDATE steps SET
+        recipeIdStep= :recipeIdStep,       
         stepOrder = :stepOrder, 
         stepText = :stepText,
         stepImage = :stepImage
         WHERE stepId = :stepId
     """
     )
-    fun updateById(stepId:Long, stepOrder: Int, stepText: String, stepImage: String?)
+    fun updateById(stepId:Long, recipeIdStep:Long, stepOrder: Int, stepText: String, stepImage: String?)
 
     @Query("SELECT*FROM steps WHERE stepId = :stepId")
     fun getStepById(stepId: Long): Step?

@@ -31,12 +31,11 @@ class RecipeAddFragment : Fragment() {
         val category = binding.chipGroupEdit.findViewById<Chip>(binding.chipGroupEdit.checkedChipId)
             .tag.toString()
         if (!title.isNullOrBlank() and !author.isNullOrBlank()) {
-            val resultBundle = Bundle(3)
-            resultBundle.putString(RESULT_TITLE, title.toString())
-            resultBundle.putString(RESULT_AUTHOR, author.toString())
-            resultBundle.putString(RESULT_CATEGORY, category)
-            setFragmentResult(REQUEST_KEY, resultBundle)
-            viewModel.saveSteps(listSteps)
+            val newRecipeId = viewModel.onSaveButtonClick(title.toString(), author.toString(), category)
+            viewModel.saveSteps(listSteps.map {
+                it.copy(recipeIdStep = newRecipeId)
+            })
+            viewModel.clearNewSteps()
             findNavController().popBackStack()
         } else onEmptyToast(title.isNullOrBlank(), author.isNullOrBlank())
     }
@@ -60,7 +59,7 @@ class RecipeAddFragment : Fragment() {
                 binding.chipGroupEdit.findViewWithTag<Chip>(recipe.category).isChecked
             }
         }
-        viewModel.clearNewSteps()
+
         viewModel.stepsData.observe(viewLifecycleOwner) { steps ->
             val recipeSteps = steps.filter { it.recipeIdStep == recipeId }
             adapter.submitList(recipeSteps)
@@ -69,7 +68,7 @@ class RecipeAddFragment : Fragment() {
 
         binding.fabAddStep.setOnClickListener {
             val newStep = Step(
-                stepId = 0L,
+                stepId = FeedFragment.NEW_STEP,
                 recipeIdStep = recipeId,
                 stepOrder = adapter.itemCount + 1,
                 stepText = "",
