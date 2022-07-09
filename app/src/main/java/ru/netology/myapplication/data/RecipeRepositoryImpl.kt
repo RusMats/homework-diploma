@@ -22,7 +22,10 @@ class RecipeRepositoryImpl(
 
     override fun save(recipe: Recipe) =
         if (recipe.recipeId == RecipeRepository.NEW_RECIPE_ID) dao.insert(recipe.toEntity())
-        else dao.updateById(recipe.recipeId, recipe.title, recipe.author, recipe.category)
+        else {
+            dao.updateById(recipe.recipeId, recipe.title, recipe.author, recipe.category)
+            recipe.recipeId
+    }
 
     override fun like(recipeId: Long) {
         dao.likeById(recipeId)

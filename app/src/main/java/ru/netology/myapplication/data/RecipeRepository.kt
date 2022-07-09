@@ -12,11 +12,12 @@ interface RecipeRepository {
 
     fun delete(recipeId: Long)
 
-    fun save(recipe: Recipe)
+    fun save(recipe: Recipe):Long
 
     fun getRecipes(): LiveData<List<Recipe>>
 
     companion object {
         const val NEW_RECIPE_ID = 0L
+        const val OLD_RECIPE_ID = -1L
     }
 }

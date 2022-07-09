@@ -11,6 +11,7 @@ import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.chip.Chip
 import ru.netology.myapplication.adapter.RecipeAdapter
 import ru.netology.myapplication.databinding.FeedFragmentBinding
@@ -80,6 +81,7 @@ class FeedFragment : Fragment() {
                 binding.dummyImage.visibility = View.VISIBLE
             }
             // endregion setDummyOnScreen
+            
 
             binding.fabFav.setOnClickListener {
                 if (FAB_STATE) {

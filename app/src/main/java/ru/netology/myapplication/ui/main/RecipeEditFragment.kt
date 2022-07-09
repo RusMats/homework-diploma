@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.EditText
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.viewModels
@@ -33,15 +34,15 @@ class RecipeEditFragment : Fragment() {
         val author = binding.authorTextEdit.text
         val category = binding.chipGroupEdit.findViewById<Chip>(binding.chipGroupEdit.checkedChipId)
             .tag.toString()
-        if (!title.isNullOrBlank() || !author.isNullOrBlank() || !category.isNullOrBlank()) {
+        if (!title.isNullOrBlank() and !author.isNullOrBlank()) {
             val resultBundle = Bundle(3)
             resultBundle.putString(RESULT_TITLE, title.toString())
             resultBundle.putString(RESULT_AUTHOR, author.toString())
             resultBundle.putString(RESULT_CATEGORY, category)
             setFragmentResult(REQUEST_KEY, resultBundle)
-        }
-        viewModel.saveSteps(listSteps)
-        findNavController().popBackStack()
+            viewModel.saveSteps(listSteps)
+            findNavController().popBackStack()
+        } else onEmptyToast(title.isNullOrBlank(), author.isNullOrBlank())
     }
 
     override fun onCreateView(
@@ -87,12 +88,18 @@ class RecipeEditFragment : Fragment() {
         binding.saveEdit.setOnClickListener {
             onSaveButtonClicked(binding)
         }
-
-
     }.root
 
     private fun onStepAddClicked(newStep:Step) {
         viewModel.saveSteps(listOf(newStep))
+    }
+
+    private fun onEmptyToast(titleIsEmpty:Boolean, authorIsEmpty:Boolean) {
+        val content = "is empty"
+        val titleName = "Title"
+        val authorName = "Author"
+        if (titleIsEmpty) Toast.makeText(context,"$titleName $content", Toast.LENGTH_SHORT).show()
+        else if (authorIsEmpty) Toast.makeText(context,"$authorName $content", Toast.LENGTH_SHORT).show()
     }
 
     companion object {

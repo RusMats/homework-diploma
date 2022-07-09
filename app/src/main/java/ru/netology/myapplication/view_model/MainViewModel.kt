@@ -54,6 +54,12 @@ class MainViewModel(application: Application) : AndroidViewModel(application),
         )
         recipeRepository.save(newRecipe)
         currentRecipe.value = null
+        stepsRepository.delete(RecipeRepository.NEW_RECIPE_ID)
+//        val newSteps = stepsRepository.getStepsByRecipeId(RecipeRepository.NEW_RECIPE_ID).map {
+//            it.copy(recipeIdStep = newId)
+//        }
+//        stepsRepository.save(newSteps)
+//        stepsRepository.delete(RecipeRepository.NEW_RECIPE_ID)
     }
 
     fun saveSteps(steps: List<Step>) {
@@ -61,6 +67,15 @@ class MainViewModel(application: Application) : AndroidViewModel(application),
     }
 
     fun onAddClicked() {
+//        val newRecipe = Recipe(
+//            recipeId = RecipeRepository.NEW_RECIPE_ID,
+//            author = "",
+//            title = "",
+//            category = "European"
+//        )
+//        val newId = recipeRepository.save(newRecipe)
+//        navigateToRecipeEditFragment.value = newId
+        stepsRepository.delete(RecipeRepository.NEW_RECIPE_ID)
         navigateToRecipeEditFragment.call()
     }
 

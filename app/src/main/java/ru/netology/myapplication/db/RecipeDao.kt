@@ -10,7 +10,10 @@ interface RecipeDao {
     fun getRecipes(): LiveData<List<RecipeEntity>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(recipe: RecipeEntity)
+    fun insert(recipe: RecipeEntity):Long
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertRecipeWithSteps(recipe: RecipeEntity, steps: List<StepEntity>)
 
     @Query(
         """UPDATE recipes SET  
