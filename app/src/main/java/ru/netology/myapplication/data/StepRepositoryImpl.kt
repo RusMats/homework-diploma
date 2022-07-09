@@ -17,6 +17,10 @@ class StepRepositoryImpl(
     override fun getStepsByRecipeId(recipeId: Long) =
     dao.getStepsByRecipeId(recipeId).map {  it.toModel() }
 
+    override fun deleteByRecipeId(recipeId: Long) {
+        dao.deleteByRecipeId(recipeId)
+    }
+
     override fun delete(stepId: Long) {
         dao.deleteById(stepId)
     }

@@ -1,17 +1,16 @@
-package ru.netology.myapplication.ui.main
+package ru.netology.myapplication.ui.main;
+
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.SearchView
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.chip.Chip
 import ru.netology.myapplication.adapter.RecipeAdapter
 import ru.netology.myapplication.databinding.FeedFragmentBinding
@@ -19,7 +18,7 @@ import ru.netology.myapplication.util.ItemTouchMoveCallback
 import ru.netology.myapplication.view_model.MainViewModel
 
 
-class FeedFragment : Fragment() {
+class FavFeedFragment : Fragment() {
 
     private val viewModel by viewModels<MainViewModel>(ownerProducer = ::requireParentFragment)
 //    private val adapter = RecipeAdapter(viewModel)
@@ -70,8 +69,9 @@ class FeedFragment : Fragment() {
         val touchHelper = ItemTouchHelper(dragCallback)
         touchHelper.attachToRecyclerView(binding.recipesRecyclerView)
         viewModel.recipeData.observe(viewLifecycleOwner) { recipes ->
-            adapter.submitList(recipes)
-
+            adapter.submitList(recipes.filter {
+                it.likedByMe
+            })
             // region setDummyOnScreen
             if (recipes.isNotEmpty()) {
                 binding.dummyText.visibility = View.GONE
@@ -94,17 +94,17 @@ class FeedFragment : Fragment() {
                 override fun onQueryTextSubmit(query: String?): Boolean {
                     return false
                 }
-
                 override fun onQueryTextChange(newText: String?): Boolean {
                     if (newText != null) {
                         adapter.submitList(recipes.filter {
                             it.title.contains(newText)
                         })
-                    } else { adapter.submitList(recipes) }
+                    } else {
+                        adapter.submitList(recipes)
+                    }
                     return false
                 }
             })
-
         }
 
         binding.closeNavigationView.setOnClickListener {

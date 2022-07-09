@@ -34,4 +34,7 @@ interface StepsDao {
     @Query("DELETE FROM steps WHERE stepId = :stepId")
     fun deleteById(stepId: Long)
 
+    @Query("DELETE FROM steps WHERE recipeIdStep = :recipeId")
+    fun deleteByRecipeId(recipeId: Long)
+
 }

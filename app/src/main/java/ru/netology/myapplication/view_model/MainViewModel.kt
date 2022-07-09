@@ -66,6 +66,10 @@ class MainViewModel(application: Application) : AndroidViewModel(application),
         stepsRepository.save(steps)
     }
 
+    fun clearNewSteps(){
+        stepsRepository.deleteByRecipeId(StepRepository.NEW_STEP_ID)
+    }
+
     fun onAddClicked() {
 //        val newRecipe = Recipe(
 //            recipeId = RecipeRepository.NEW_RECIPE_ID,

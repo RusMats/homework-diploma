@@ -8,6 +8,8 @@ interface StepRepository {
 
     fun getStepsByRecipeId(recipeId: Long): List<Step>
 
+    fun deleteByRecipeId(recipeId: Long)
+
     fun delete(stepId: Long)
 
     fun save(steps: List<Step>)
